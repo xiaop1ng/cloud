@@ -10,6 +10,7 @@
     <version>1.0-BUILD</version>
     <modules>
         <module>server-eureka</module>
+        <module>server-config</module>
     </modules>
 
     <parent>

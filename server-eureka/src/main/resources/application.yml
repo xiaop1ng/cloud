@@ -8,7 +8,7 @@ eureka:
     registerWithEureka: false # false 表明该应用是一个 eureka server
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
 
 spring:
   application:
