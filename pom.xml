@@ -11,6 +11,7 @@
     <modules>
         <module>server-eureka</module>
         <module>server-config</module>
+        <module>server-api</module>
     </modules>
 
     <parent>
