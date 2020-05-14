@@ -1,6 +1,6 @@
 # server-config
 
-配置中心
+配置中心 port:8770
 
 ## 由于 `eureka` 添加了 `security` 组件
 
@@ -25,4 +25,42 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://admin:admin@localhost:8761/eureka # eureka 服务中心地址
+```
+
+## Start
+
+> http://127.0.0.1:8770/cfg/dev
+
+该请求会访问 https://github.com/xiaop1ng/cloud 仓库的 /config/cfg-dev.properties
+
+Resp:
+
+```json
+{
+  "name": "cfg",
+  "profiles": [
+    "dev"
+  ],
+  "label": null,
+  "version": "f2b97c0e846b00b2c078e303d92204be4a2615d7",
+  "state": null,
+  "propertySources": [
+    {
+      "name": "https://github.com/xiaop1ng/cloud/config/cfg-dev.properties",
+      "source": {
+        "name": "test"
+      }
+    }
+  ]
+}
+```
+
+## 访问配置文件
+
+```
+/{application}/{profile}[/{label}]
+/{application}-{profile}.yml
+/{label}/{application}-{profile}.yml
+/{application}-{profile}.properties
+/{label}/{application}-{profile}.properties
 ```
