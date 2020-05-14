@@ -2,6 +2,8 @@
 
 Standalone Mode port:8761
 
+登录: admin/admin
+
 ## 关于 Eureka
 
 Eureka 是 Netflix 开源的一款提供服务注册和发现的产品，也就是注册中心的角色。
