@@ -35,6 +35,21 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- base-web -->
+        <dependency>
+            <groupId>fun.hlang</groupId>
+            <artifactId>base-web</artifactId>
+            <version>1.0-RC</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- hutool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

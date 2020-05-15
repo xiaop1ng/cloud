@@ -12,6 +12,7 @@
         <module>server-eureka</module>
         <module>server-config</module>
         <module>server-api</module>
+        <module>base-web</module>
     </modules>
 
     <parent>
