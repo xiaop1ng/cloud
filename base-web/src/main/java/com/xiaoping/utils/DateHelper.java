@@ -1,7 +1,8 @@
 package com.xiaoping.utils;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +25,7 @@ public class DateHelper {
     /**
      * 日志
      */
-    private static Logger logger = Logger.getLogger(DateHelper.class);
+    private static Logger logger = LoggerFactory.getLogger(DateHelper.class);
 
 
 

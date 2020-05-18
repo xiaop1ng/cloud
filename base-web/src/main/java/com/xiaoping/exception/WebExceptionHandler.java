@@ -4,7 +4,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.xiaoping.constant.Constans;
 import com.xiaoping.pojo.Rs;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class WebExceptionHandler {
 
-	private Logger logger = Logger.getLogger(WebExceptionHandler.class);
+	private Logger logger = LoggerFactory.getLogger(WebExceptionHandler.class);
 
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
