@@ -13,11 +13,10 @@ public class WxApi extends BaseBizController {
 
     @RequestMapping("/wx")
     public String wx() {
-        String signature = this.getStringParam("signature");
-        String timestamp = this.getStringParam("timestamp");
-        String nonce = this.getStringParam("nonce");
-
-        String echostr = this.getStringParam("echostr");
+        String signature = this.requireStringParam("signature");
+        String timestamp = this.requireStringParam("timestamp");
+        String nonce = this.requireStringParam("nonce");
+        String echostr = this.requireStringParam("echostr");
 
         String token = "weixin";
         List<String> arr = Arrays.asList(timestamp, nonce, token);

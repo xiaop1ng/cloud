@@ -1,7 +1,17 @@
 spring:
   application:
-    name: nacos-config
+    name: server-nacos
   cloud:
     nacos:
+      discovery:
+        server-addr: 106.52.167.42:8848
       config:
         server-addr: 106.52.167.42:8848
+        file-extension: yaml
+        refresh:
+          enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
