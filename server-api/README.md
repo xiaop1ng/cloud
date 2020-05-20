@@ -2,7 +2,14 @@
 
 面向用户的接口服务 port: 8770
 
+## Build
+
+> mvn package
+
 ## Start
+
+>  java -jar server-config-1.0-BUILD.jar &
+
 
 > http://127.0.0.1:8771/name
 

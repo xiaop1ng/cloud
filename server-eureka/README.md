@@ -2,6 +2,15 @@
 
 Standalone Mode port:8761
 
+## Build
+
+> mvn package
+
+## Start
+
+>  java -jar server-eureka-1.0-BUILD.jar &
+
+
 登录: admin/admin
 
 ## 关于 Eureka

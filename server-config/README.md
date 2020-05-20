@@ -2,6 +2,14 @@
 
 配置中心 port:8770
 
+## Build
+
+> mvn package
+
+## Start
+
+>  java -jar server-config-1.0-BUILD.jar &
+
 ## 由于 `eureka` 添加了 `security` 组件
 
 首先我们需要将 `WebSecurityConfig` csrf 配置忽略掉 `/eureka`
