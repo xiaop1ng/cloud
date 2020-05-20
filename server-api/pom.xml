@@ -40,7 +40,6 @@
             <groupId>fun.hlang</groupId>
             <artifactId>base-web</artifactId>
             <version>1.0-RC</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- hutool -->

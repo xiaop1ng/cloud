@@ -4,7 +4,12 @@
 
 ## Build
 
-> mvn package
+离线打包
+
+> mvn clean package
+
+> 注意：如果 build 失败，需要再 cloud 目录下执行 `mvn install`
+
 
 ## Start
 
