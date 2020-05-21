@@ -1,11 +1,14 @@
 package com.hlang.api;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+// 注解 `@RefreshScope` 表识动态获取配置
+@RefreshScope
 @RestController
 public class CfgApi {
 
