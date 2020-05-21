@@ -24,9 +24,15 @@
         </dependency>
 
         <!-- Eureka Client -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+        <!--</dependency>-->
+
+        <!-- 弃用 Eureka 使用 nacos 作为服务发现组件 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
         <!-- actuator 端点监控 -->
@@ -48,6 +54,7 @@
             <artifactId>hutool-all</artifactId>
             <version>5.3.2</version>
         </dependency>
+
 
     </dependencies>
 

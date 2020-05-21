@@ -22,7 +22,7 @@ public class CfgApi {
 
     @GetMapping(value = "/echo/{string}")
     public String echo(@PathVariable String string) {
-        return "Hello Nacos Discovery " + string;
+        return "New8080: Hello Nacos Discovery " + string;
     }
 
 
