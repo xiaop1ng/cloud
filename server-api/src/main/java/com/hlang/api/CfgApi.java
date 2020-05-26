@@ -1,5 +1,6 @@
 package com.hlang.api;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -28,6 +29,7 @@ public class CfgApi {
         return name;
     }
 
+    @SentinelResource(value = "api")
     @GetMapping("/echo/app-name")
     public String echoAppName(){
         //使用 LoadBalanceClient 和 RestTemolate 结合的方式来访问
