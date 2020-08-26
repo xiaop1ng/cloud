@@ -6,6 +6,7 @@ import com.xiaoping.base.BaseController;
 import com.xiaoping.base.impl.BaseBizController;
 import com.xiaoping.pojo.Rs;
 import com.xiaoping.utils.DataRow;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -41,6 +42,7 @@ public class CfgApi extends BaseBizController {
         return name;
     }
 
+    @SentinelResource(value = "api")
     @GetMapping("/echo/app-name")
     public String echoAppName(){
         //使用 LoadBalanceClient 和 RestTemolate 结合的方式来访问
@@ -57,8 +59,6 @@ public class CfgApi extends BaseBizController {
         List<DataRow> list = new ArrayList<>();
         logger.info("[size]" + segment.size());
         List<String> list2 = HanLP.extractKeyword(text, 1);
-
-
         segment.forEach(T->{
             DataRow data = new DataRow();
             data.set("word", T.word);

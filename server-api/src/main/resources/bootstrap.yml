@@ -12,10 +12,14 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 106.52.167.42:8848 # 使用 nacos 作为服务中心
+        server-addr: 106.52.167.42:8848 # 使用 nacos 作为服务注册中心
 #    config:
 #      label: master
 #      profile: dev
 #      discovery:
 #        enabled: false # 关闭
 #        serviceId: server-config # 读取配置文件不再写ip地址，而是服务名，这时如果配置服务部署多份，通过负载均衡，从而高可用。
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: 106.52.167.42:8080
