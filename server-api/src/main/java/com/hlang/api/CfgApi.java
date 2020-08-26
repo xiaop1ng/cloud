@@ -1,7 +1,11 @@
 package com.hlang.api;
 
+import cn.hutool.extra.tokenizer.TokenizerUtil;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.common.Term;
+import com.hankcs.hanlp.tokenizer.NLPTokenizer;
+import com.hankcs.hanlp.tokenizer.SpeedTokenizer;
+import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 import com.xiaoping.base.BaseController;
 import com.xiaoping.base.impl.BaseBizController;
 import com.xiaoping.pojo.Rs;
@@ -52,21 +56,34 @@ public class CfgApi extends BaseBizController {
         return restTemplate.getForObject(url,String.class);
     }
 
-    @GetMapping("/hanlp")
-    public Rs call() {
+    @GetMapping("/hanlp/v1")
+    public Rs hanlp() {
         String text = this.getStringParam("text");
-        List<Term> segment = HanLP.segment(text);
+        List<Term> segment = SpeedTokenizer.segment(text);
         List<DataRow> list = new ArrayList<>();
-        logger.info("[size]" + segment.size());
-        List<String> list2 = HanLP.extractKeyword(text, 1);
         segment.forEach(T->{
             DataRow data = new DataRow();
             data.set("word", T.word);
             data.set("nature", String.valueOf(T.nature));
-            data.set("offset", T.offset);
             list.add(data);
         });
         return Rs.ok(list);
     }
+
+    @GetMapping("/hanlp")
+    public Rs segment() {
+        String text = this.getStringParam("text");
+        List<Term> segment = HanLP.segment(text.trim());
+        List<DataRow> list = new ArrayList<>();
+        segment.forEach(T->{
+            DataRow data = new DataRow();
+            data.set("word", T.word);
+            data.set("nature", String.valueOf(T.nature));
+            list.add(data);
+        });
+        return Rs.ok(list);
+    }
+
+
 
 }
