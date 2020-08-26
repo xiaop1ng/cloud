@@ -55,6 +55,12 @@
             <version>5.3.2</version>
         </dependency>
 
+        <!-- hanlp -->
+        <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>hanlp</artifactId>
+            <version>portable-1.7.8</version>
+        </dependency>
 
     </dependencies>
 

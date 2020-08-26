@@ -9,7 +9,7 @@ spring:
         server-addr: 106.52.167.42:8848
       config:
         server-addr: 106.52.167.42:8848
-        file-extension: yaml
+#        file-extension: yaml
         refresh:
           enabled: true # 动态刷新配置的值
 management:
