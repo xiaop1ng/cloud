@@ -1,8 +1,6 @@
 package com.hlang.controller;
 
-import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
-import com.google.gson.JsonObject;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hlang.constant.RedisConstants;
@@ -11,7 +9,7 @@ import com.hlang.util.JsoupUtil;
 import com.hlang.util.Terms;
 import com.xiaoping.pojo.Rs;
 import com.xiaoping.utils.DataRow;
-import javafx.collections.transformation.SortedList;
+import com.xiaoping.utils.StringHelper;
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,16 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.crypto.Data;
-import java.beans.IntrospectionException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -38,10 +32,34 @@ public class AnalysisController {
     @Autowired
     private StringRedisTemplate redis;
 
+    @GetMapping("/v1/wordcount/{word}")
+    public Rs wordRank(@PathVariable(required = true) String word) {
+        List<DataRow> list = new ArrayList<>();
+        Set<String> members = redis.opsForSet().members(RedisConstants.WORD_VOICE_SET + word);
+        members.forEach(T->{
+            DataRow data = Terms.newInstance()
+                .add("url", T)
+                .add("tit", redis.opsForHash().get(RedisConstants.VOICE_HASH, T));
+            String json = redis.opsForHash().get(RedisConstants.VOICE_SENTIMENT_HASH, T).toString();
+            if (StringHelper.isNotBlank(json)) {
+                JSONObject ret = new JSONObject(json);
+                JSONObject sentimentObj = ret.getJSONArray("items").getJSONObject(0);
+                if(null != sentimentObj) {
+                     for (String key: sentimentObj.keySet() ) {
+                         data.set(key, String.valueOf(sentimentObj.get(key)));
+                     }
+                }
+            }
+            list.add(data);
+        });
+        return Rs.ok(list);
+
+    }
+
     @GetMapping("/v1/wordcount")
     public Rs wordRank() {
-        Map<Object, Object> wordCount = redis.opsForHash().entries(RedisConstants.WORD_COUNT_HASH);
         List<DataRow> list = new ArrayList<>();
+        Map<Object, Object> wordCount = redis.opsForHash().entries(RedisConstants.WORD_COUNT_HASH);
         for (Object key: wordCount.keySet()) {
             Object val = wordCount.get(key);
             list.add(Terms.newInstance()
