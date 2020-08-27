@@ -1,15 +1,21 @@
-package com.hlang.task;
+package com.hlang.util;
 
 import com.baidu.aip.nlp.AipNlp;
+import com.xiaoping.utils.DataRow;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
-public class BaiduAiTest {
+public class BaiduAiUtil {
 
     public static final String APP_ID = "22271625";
     public static final String API_KEY = "elrzPpGEfCAMbiZRsBgbmPqj";
     public static final String SECRET_KEY = "yvURkUjOmnXMrYGrdBtK6Y6qj5k1DG9L";
+
+    public static JSONObject getSentiment(String text) {
+        text = text.replaceAll( "[\\pP+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]" , "");
+        AipNlp client = new AipNlp(APP_ID, API_KEY, SECRET_KEY);
+        JSONObject res = client.sentimentClassify(text, null);
+        return res;
+    }
 
 //    public static void main(String[] args) {
 //        // 初始化一个AipNlp
