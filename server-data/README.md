@@ -14,3 +14,9 @@
 ## Start
 
 >  java -jar server-data-1.0-BUILD.jar &
+
+
+## TODO:
+
+- Save -> DB
+- BI
