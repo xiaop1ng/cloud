@@ -15,4 +15,4 @@ spring:
 logging:
   file: ./logs/java.log
   level:
-    root: ERROR
+    root: INFO
