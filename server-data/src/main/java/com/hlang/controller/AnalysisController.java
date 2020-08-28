@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class AnalysisController {
@@ -26,7 +27,7 @@ public class AnalysisController {
 
     @GetMapping("/v1/wordcount/{word}")
     public Rs getWordVoices(@PathVariable(required = true) String word) {
-        return getWordVoices(null, null, word);
+        return Rs.ok( getWordVoices(null, null, word) );
     }
 
     /**
@@ -38,7 +39,14 @@ public class AnalysisController {
     @GetMapping("/v2/wordcount/{word}")
     public Rs getTodayWordVoices(@PathVariable(required = true) String word,
                        @RequestParam(required = false) String dist) {
-        return getWordVoices(dist, day, word);
+        List data =  getWordVoices(dist, day, word);
+        if (null == data || data.size() == 0) {
+            // 取昨日的数据
+            Date yestoday = DateHelper.getDataDiff(new Date(), 1);
+            String yday = DateHelper.formatDate(yestoday, "yyyyMMdd");
+            data = getWordVoices(dist, yday, word);
+        }
+        return Rs.ok(data);
     }
 
     /**
@@ -49,12 +57,19 @@ public class AnalysisController {
     @GetMapping("/v2/wordcount")
     public Rs todayWordRank(@RequestParam(required = false) String dist,
                             @RequestParam(required = false) Integer filter) {
-        return getWordRank(dist, day, filter);
+        List data = getWordRank(dist, day, filter);
+        if (null == data || data.size() == 0) {
+            // 取昨日的数据
+            Date yestoday = DateHelper.getDataDiff(new Date(), 1);
+            String yday = DateHelper.formatDate(yestoday, "yyyyMMdd");
+            data = getWordRank(dist, yday, filter);
+        }
+        return Rs.ok(data);
     }
 
     @GetMapping("/v1/wordcount")
     public Rs wordRank( @RequestParam(required = false) Integer filter ) {
-        return getWordRank(null,null, filter);
+        return Rs.ok(getWordRank(null,null, filter));
     };
 
     @GetMapping("/v2/feel/{dist}")
@@ -75,7 +90,7 @@ public class AnalysisController {
      * @param time
      * @return
      */
-    private Rs getWordRank (String dist, String time, Integer filter) {
+    private List getWordRank (String dist, String time, Integer filter) {
         List<DataRow> list = new ArrayList<>();
         RedisKeys redisKeys = RedisKeys.getInstance(dist);
         String wordCountKey = redisKeys.WORD_COUNT_HASH;
@@ -99,7 +114,9 @@ public class AnalysisController {
         });
         if (null == filter || filter < 1) filter = 1;
         int f = filter.intValue();
-        return Rs.ok(list.stream().filter(item-> item.getLong("count") > f && item.getString("word").length() > 1));
+        return list.stream()
+                .filter(item-> item.getLong("count") > f && item.getString("word").length() > 1)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -109,7 +126,7 @@ public class AnalysisController {
      * @param word
      * @return
      */
-    private Rs getWordVoices(String dist, String time, String word) {
+    private List getWordVoices(String dist, String time, String word) {
         List<DataRow> list = new ArrayList<>();
         RedisKeys redisKeys = RedisKeys.getInstance(dist);
         Set<String> members = redis.opsForSet().members(redisKeys.WORD_VOICE_SET + word);
@@ -133,7 +150,7 @@ public class AnalysisController {
             else if ( redis.opsForHash().hasKey(redisKeys.VOICE_HASH + day, T) ) // 只要今天的
                 list.add(data);
         });
-        return Rs.ok(list);
+        return list;
     }
 
 }
