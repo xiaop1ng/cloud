@@ -145,7 +145,7 @@ public class AnalysisController {
                     }
                 }
             }
-            if (StringHelper.isNotBlank(time)) // 没有时间限制
+            if (StringHelper.isBlank(time)) // 没有时间限制
                 list.add(data);
             else if ( redis.opsForHash().hasKey(redisKeys.VOICE_HASH + day, T) ) // 只要今天的
                 list.add(data);

@@ -72,7 +72,7 @@ public class TophubBot {
 
             List<Term> segment = HanLP.segment(tit);
             Object[] words = segment.stream().map(
-                    T -> T.word.replaceAll( "[\\pP+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]" , ""))
+                    T -> T.word.replaceAll( "[\\pP+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]" , "").toUpperCase())
                     .toArray();
             redis.opsForHash().put(redisKeys.VOICE_WORD_HASH, id, JSONUtil.toJsonStr(words));
             for (Object word : words) {
@@ -82,18 +82,18 @@ public class TophubBot {
                 if ( StringHelper.isNotBlank(wd) )
                     redis.opsForSet().add(redisKeys.WORD_VOICE_SET + wd, id);
             }
-//            try {
-//                // 情感分析
-//                JSONObject sentiment = BaiduAiUtil.getSentiment(tit);
-//                String flag = sentiment.getJSONArray("items").getJSONObject(0).get("sentiment").toString();
-//                String negative_prob = sentiment.getJSONArray("items").getJSONObject(0).get("negative_prob").toString();
-//                redis.opsForHash().put(redisKeys.VOICE_SENTIMENT_HASH, id, sentiment.toString(2));
-//                redis.opsForSet().add(redisKeys.VOICE_SENTIMENT_FLAG_SET + flag, id);
-//                redis.opsForHash().put(redisKeys.VOICE_NEGATIVE_PROB_HASH, id, negative_prob);
-//                TimeUnit.SECONDS.sleep(1);
-//            } catch (Exception e) {
-//                logger.error("[baiduSdk error]", e);
-//            }
+            try {
+                // 情感分析
+                JSONObject sentiment = BaiduAiUtil.getSentiment(tit);
+                String flag = sentiment.getJSONArray("items").getJSONObject(0).get("sentiment").toString();
+                String negative_prob = sentiment.getJSONArray("items").getJSONObject(0).get("negative_prob").toString();
+                redis.opsForHash().put(redisKeys.VOICE_SENTIMENT_HASH, id, sentiment.toString(2));
+                redis.opsForSet().add(redisKeys.VOICE_SENTIMENT_FLAG_SET + flag, id);
+                redis.opsForHash().put(redisKeys.VOICE_NEGATIVE_PROB_HASH, id, negative_prob);
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+                logger.error("[baiduSdk error]", e);
+            }
         });
         // 5 天后过期
         redis.expire(redisKeys.VOICE_HASH + day, 5, TimeUnit.DAYS);

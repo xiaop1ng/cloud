@@ -23,20 +23,23 @@ public class CollectTask {
     private TophubBot bot;
 
     /**
-     * 朝九晚九内 每半小时
+     * 朝六晚九内 每半小时
      */
-    @Scheduled(cron = "0 0/30 9-21 * * ?")
+    @Scheduled(cron = "0 0/30 6-21 * * ?")
     public void excute() {
         logger.info("test" + System.currentTimeMillis());
         // execute -> 微博、澎湃、头条、网易新闻
         String[][] cfg= {
-            {"/c/news", "node-1", "news"}, // 微博热搜
-            {"/c/news", "node-51", "news"}, // 澎湃
-            {"/c/news?p=2", "node-3608", "news"}, // 今日头条
-            {"/c/news?p=3", "node-237", "news"}, // 网易新闻
-            {"/c/community?p=2", "node-2566", "game"}, // NGA
-            {"/c/ent?p=3", "node-203", "game"}, // 游研社
-            {"/c/community?p=4", "node-321", "game"} // 虎扑
+                {"/c/news", "node-1", "news"}, // 微博热搜
+                {"/c/news", "node-51", "news"}, // 澎湃
+                {"/c/news?p=2", "node-3608", "news"}, // 今日头条
+                {"/c/news?p=3", "node-237", "news"}, // 网易新闻
+                {"/c/community?p=2", "node-2566", "game"}, // NGA
+                {"/c/ent?p=3", "node-203", "game"}, // 游研社
+                {"/c/community?p=4", "node-321", "game"}, // 虎扑
+                {"/c/ent?p=5", "node-4442", "game"}, // 小黑盒
+                {"/c/ent?p=5", "node-398", "game"}, // 游戏时光
+                {"/c/community", "node-7", "explore"} //V2ex
         };
         for (int i = 0; i < cfg.length; i++) {
             try {
