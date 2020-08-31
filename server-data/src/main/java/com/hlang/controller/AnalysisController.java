@@ -23,8 +23,6 @@ public class AnalysisController {
     @Autowired
     private StringRedisTemplate redis;
 
-    private String day = DateHelper.formatDate(new Date(), "yyyyMMdd");
-
     @GetMapping("/v1/wordcount/{word}")
     public Rs getWordVoices(@PathVariable(required = true) String word) {
         return Rs.ok( getWordVoices(null, null, word) );
@@ -39,7 +37,7 @@ public class AnalysisController {
     @GetMapping("/v2/wordcount/{word}")
     public Rs getTodayWordVoices(@PathVariable(required = true) String word,
                        @RequestParam(required = false) String dist) {
-        List data =  getWordVoices(dist, day, word);
+        List data =  getWordVoices(dist, getToday(), word);
         if (null == data || data.size() == 0) {
             // 取昨日的数据
             Date yestoday = DateHelper.getDataDiff(new Date(), 1);
@@ -57,7 +55,7 @@ public class AnalysisController {
     @GetMapping("/v2/wordcount")
     public Rs todayWordRank(@RequestParam(required = false) String dist,
                             @RequestParam(required = false) Integer filter) {
-        List data = getWordRank(dist, day, filter);
+        List data = getWordRank(dist, getToday(), filter);
         if (null == data || data.size() == 0) {
             // 取昨日的数据
             Date yestoday = DateHelper.getDataDiff(new Date(), 1);
@@ -147,10 +145,14 @@ public class AnalysisController {
             }
             if (StringHelper.isBlank(time)) // 没有时间限制
                 list.add(data);
-            else if ( redis.opsForHash().hasKey(redisKeys.VOICE_HASH + day, T) ) // 只要今天的
+            else if ( redis.opsForHash().hasKey(redisKeys.VOICE_HASH + getToday(), T) ) // 只要今天的
                 list.add(data);
         });
         return list;
+    }
+
+    private String getToday(){
+        return DateHelper.formatDate(new Date(), "yyyyMMdd");
     }
 
 }
