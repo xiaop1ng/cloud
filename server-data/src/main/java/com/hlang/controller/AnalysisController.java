@@ -76,6 +76,7 @@ public class AnalysisController {
         Long neSize = redis.opsForSet().size(redisKeys.VOICE_SENTIMENT_FLAG_SET + "0"); //  0:负向，1:中性，2:正向
         Long noSize = redis.opsForSet().size(redisKeys.VOICE_SENTIMENT_FLAG_SET + "1"); //  0:负向，1:中性，2:正向
         Long poSize = redis.opsForSet().size(redisKeys.VOICE_SENTIMENT_FLAG_SET + "2"); //  0:负向，1:中性，2:正向
+
         return Rs.ok(Terms.newInstance()
                 .add("negative", neSize) // 消极
                 .add("normal", noSize) // 平常
@@ -110,7 +111,7 @@ public class AnalysisController {
             if (o1.getLong("count") == o2.getLong("count")) return 0;
             return o1.getLong("count") > o2.getLong("count") ? -1: 1;
         });
-        if (null == filter || filter < 1) filter = 1;
+        if (null == filter || filter < 0) filter = 1;
         int f = filter.intValue();
         return list.stream()
                 .filter(item-> item.getLong("count") > f && item.getString("word").length() > 1)

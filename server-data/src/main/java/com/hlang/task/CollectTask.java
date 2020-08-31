@@ -25,7 +25,7 @@ public class CollectTask {
     /**
      * 朝六晚九内 每半小时
      */
-    @Scheduled(cron = "0 0/30 6-21 * * ?")
+    @Scheduled(cron = "0 0/30 6-22 * * ?")
     public void excute() {
         logger.info("test" + System.currentTimeMillis());
         // execute -> 微博、澎湃、头条、网易新闻
@@ -39,7 +39,9 @@ public class CollectTask {
                 {"/c/community?p=4", "node-321", "game"}, // 虎扑
                 {"/c/ent?p=5", "node-4442", "game"}, // 小黑盒
                 {"/c/ent?p=5", "node-398", "game"}, // 游戏时光
-                {"/c/community", "node-7", "explore"} //V2ex
+                {"/c/community", "node-7", "explore"}, //V2ex
+                {"/c/community", "node-68", "share"}, // 52pojie
+                {"/c/community", "node-2471", "share"} // 52pojie
         };
         for (int i = 0; i < cfg.length; i++) {
             try {
